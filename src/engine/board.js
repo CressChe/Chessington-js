@@ -24,8 +24,12 @@ export default class Board {
         return this.board[square.row][square.col];
     }
 
-    checkSquareAvailable(move) {
-        return (typeof this.getPiece(move) === 'undefined')
+    checkSquareAvailable(square) {
+        if ((square.col >= GameSettings.BOARD_SIZE || square.col < 0) ||
+            (square.row >= GameSettings.BOARD_SIZE || square.row < 0)) {
+            return false
+        }
+        return !this.getPiece(square)
     }
 
     findPiece(pieceToFind) {
@@ -40,7 +44,7 @@ export default class Board {
     }
 
     movePiece(fromSquare, toSquare) {
-        const movingPiece = this.getPiece(fromSquare);        
+        const movingPiece = this.getPiece(fromSquare);
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);

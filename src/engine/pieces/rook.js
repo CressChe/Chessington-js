@@ -9,14 +9,37 @@ export default class Rook extends Piece {
     getAvailableMoves(board) {
         const location = board.findPiece(this);
         const availableMoves = [];
-
-        for (let i = 0; i <= 7; i++) {
-            if (i !== location.col)
-                availableMoves.push(Square.at(location.row, i))
-        }
-        for (let j = 0;j <= 7; j++) {
-            if (j !== location.row)
-                availableMoves.push(Square.at(j, location.col))
+        let movesUpBlocked = false;
+        let movesDownBlocked = false;
+        let movesLeftBlocked = false;
+        let movesRightBlocked = false;
+        
+        for (let i = 1; i < 8; i++) {
+            let moveUp = Square.at(location.row + i, location.col);
+            let moveDown = Square.at(location.row - i, location.col);
+            let moveLeft = Square.at(location.row, location.col - i);
+            let moveRight = Square.at(location.row, location.col + i);
+            
+            if (board.checkSquareAvailable(moveUp) && !movesUpBlocked) {
+                availableMoves.push(moveUp);
+            } else {
+                movesUpBlocked = true;
+            }
+            if (board.checkSquareAvailable(moveDown) && !movesDownBlocked) {
+                availableMoves.push(moveDown);
+            } else {
+                movesDownBlocked = true;
+            }
+            if (board.checkSquareAvailable(moveLeft) && !movesLeftBlocked) {
+                availableMoves.push(moveLeft);
+            } else {
+                movesLeftBlocked = true;
+            }
+            if (board.checkSquareAvailable(moveRight) && !movesRightBlocked) {
+                availableMoves.push(moveRight);
+            } else {
+                movesRightBlocked = true;
+            }
         }
         return availableMoves;
     }

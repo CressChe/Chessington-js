@@ -9,37 +9,41 @@ export default class Queen extends Piece {
     getAvailableMoves(board) {
         const location = board.findPiece(this);
         const availableMoves = [];
-        let newColumn = location.col;
-        for (let i = location.row - 1; i >= 0; i--) {
-            newColumn--
-            if (newColumn >= 0)
-                availableMoves.push(Square.at(i, newColumn))
-        }
-        newColumn = location.col;
-        for (let i = location.row + 1; i <= 7; i++) {
-            newColumn++
-            if (newColumn < 8)
-                availableMoves.push(Square.at(i, newColumn))
-        }
-        let newRow = location.row;
-        for (let i = location.col - 1; i >= 0; i--) {
-            newRow++
-            if (newRow < 8)
-                availableMoves.push(Square.at(newRow, i))
-        }
-        newRow = location.row;
-        for (let i = location.col + 1; i <= 7; i++) {
-            newRow--
-            if (newRow >= 0)
-                availableMoves.push(Square.at(newRow, i))
-        }
-        for (let i = 0; i <= 7; i++) {
-            if (i !== location.col)
-                availableMoves.push(Square.at(location.row, i))
-        }
-        for (let j = 0;j <= 7; j++) {
-            if (j !== location.row)
-                availableMoves.push(Square.at(j, location.col))
+        
+        for (let i = 1; i < 8; i++) {
+            let moveUpRight = Square.at(location.row + i, location.col + i);
+            let moveDownLeft = Square.at(location.row - i, location.col - i);
+            let moveUpLeft = Square.at(location.row + i, location.col - i);
+            let moveDownRight = Square.at(location.row - i, location.col + i);
+            let moveUp = Square.at(location.row + i, location.col);
+            let moveDown = Square.at(location.row - i, location.col);
+            let moveLeft = Square.at(location.row, location.col - i);
+            let moveRight = Square.at(location.row, location.col + i);
+            
+            if (board.checkSquareAvailable(moveUpRight)) {
+                availableMoves.push(moveUpRight);
+            }
+            if (board.checkSquareAvailable(moveDownLeft)) {
+                availableMoves.push(moveDownLeft);
+            }
+            if (board.checkSquareAvailable(moveUpLeft)) {
+                availableMoves.push(moveUpLeft);
+            }
+            if (board.checkSquareAvailable(moveDownRight)) {
+                availableMoves.push(moveDownRight);
+            }
+            if (board.checkSquareAvailable(moveUp)) {
+                availableMoves.push(moveUp);
+            }
+            if (board.checkSquareAvailable(moveDown)) {
+                availableMoves.push(moveDown);
+            }
+            if (board.checkSquareAvailable(moveLeft)) {
+                availableMoves.push(moveLeft);
+            }
+            if (board.checkSquareAvailable(moveRight)) {
+                availableMoves.push(moveRight);
+            }
         }
         return availableMoves
     }
