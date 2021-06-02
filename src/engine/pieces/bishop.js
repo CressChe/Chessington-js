@@ -34,8 +34,6 @@ export default class Bishop extends Piece {
                 availableMoves.push(Square.at(newRow, i))
         }
         
-       
-
         return availableMoves;
     }
 }
