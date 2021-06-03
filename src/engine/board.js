@@ -1,6 +1,7 @@
 import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
+import King from './pieces/king';
 
 export default class Board {
     constructor(currentPlayer) {
@@ -27,17 +28,32 @@ export default class Board {
     checkSquareAvailable(square) {
         if ((square.col >= GameSettings.BOARD_SIZE || square.col < 0) ||
             (square.row >= GameSettings.BOARD_SIZE || square.row < 0)) {
-            return false
+            return false;
         }
-        return !this.getPiece(square)
+        const squareContent = this.getPiece(square);
+        if (!squareContent) {
+            return true;
+        } else {
+            if ((squareContent.player !== this.currentPlayer) && !(squareContent instanceof King)) {
+                return 'Opposing Piece';
+            } else {
+                return false;
+            }
+        }
     }
 
     addAllMovesInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
         for (let i = 1; i < 8; i++) {
             const move = Square.at(location.row + (i * directionUpDown), location.col + (i * directionRightLeft));
-            if (this.checkSquareAvailable(move)) {
-                possibleMoves.push(move)
+            const available = this.checkSquareAvailable(move)
+
+            if (available) {
+                possibleMoves.push(move);
             } else {
+                break;
+            }
+
+            if (available === 'Opposing Piece') {
                 break;
             }
         }
@@ -46,7 +62,7 @@ export default class Board {
     addSingleMoveInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
         const move = Square.at(location.row + directionUpDown, location.col + directionRightLeft);
         if (this.checkSquareAvailable(move)) {
-            possibleMoves.push(move)
+            possibleMoves.push(move);
         }
     }
 
