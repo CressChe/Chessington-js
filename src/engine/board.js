@@ -32,6 +32,24 @@ export default class Board {
         return !this.getPiece(square)
     }
 
+    addAllMovesInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
+        for (let i = 1; i < 8; i++) {
+            const move = Square.at(location.row + (i * directionUpDown), location.col + (i * directionRightLeft));
+            if (this.checkSquareAvailable(move)) {
+                possibleMoves.push(move)
+            } else {
+                break;
+            }
+        }
+    }
+
+    addSingleMoveInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
+        const move = Square.at(location.row + directionUpDown, location.col + directionRightLeft);
+        if (this.checkSquareAvailable(move)) {
+            possibleMoves.push(move)
+        }
+    }
+
     findPiece(pieceToFind) {
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
