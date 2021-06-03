@@ -1,5 +1,6 @@
 import Piece from './piece';
-import Square from '../square';
+import Directions from './directions';
+
 
 export default class Queen extends Piece {
     constructor(player) {
@@ -9,17 +10,11 @@ export default class Queen extends Piece {
     getAvailableMoves(board) {
         const location = board.findPiece(this);
         const availableMoves = [];
+        const queenDirections = new Directions(this);
         
-        board.addAllMovesInADirection(1, 1, location, availableMoves);
-        board.addAllMovesInADirection(-1, -1, location, availableMoves);
-        board.addAllMovesInADirection(1, -1, location, availableMoves);
-        board.addAllMovesInADirection(-1, 1, location, availableMoves);
-
-        board.addAllMovesInADirection(1, 0, location, availableMoves);
-        board.addAllMovesInADirection(-1, 0, location, availableMoves);
-        board.addAllMovesInADirection(0, 1, location, availableMoves);
-        board.addAllMovesInADirection(0, -1, location, availableMoves);
-       
+        queenDirections.directions.forEach(direction =>
+            board.addAllMovesInADirection(direction, location, availableMoves)
+        )
         return availableMoves
     }
 }

@@ -6,7 +6,7 @@ import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
 
-describe.only('Rook', () => {
+describe('Rook', () => {
 
     let board;
     beforeEach(() => board = new Board());

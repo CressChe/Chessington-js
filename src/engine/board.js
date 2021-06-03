@@ -57,8 +57,8 @@ export default class Board {
         }
     }
 
-    addSingleMoveInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
-        const move = Square.at(location.row + directionUpDown, location.col + directionRightLeft);
+    addSingleMoveInADirection(direction, location, possibleMoves) {
+        const move = Square.at(location.row + direction.x, location.col + direction.y);
         if (this.checkSquareAvailable(move)) {
             possibleMoves.push(move);
         }

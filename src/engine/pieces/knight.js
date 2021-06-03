@@ -1,5 +1,5 @@
 import Piece from './piece';
-import Square from '../square';
+import Directions from './directions';
 
 export default class Knight extends Piece {
     constructor(player) {
@@ -9,15 +9,11 @@ export default class Knight extends Piece {
     getAvailableMoves(board) {
         const location = board.findPiece(this);
         const availableMoves = [];
-
-        board.addSingleMoveInADirection(2, 1, location, availableMoves);
-        board.addSingleMoveInADirection(2, -1, location, availableMoves);
-        board.addSingleMoveInADirection(1, 2, location, availableMoves);
-        board.addSingleMoveInADirection(1, -2, location, availableMoves);
-        board.addSingleMoveInADirection(-1, 2, location, availableMoves);
-        board.addSingleMoveInADirection(-1, -2, location, availableMoves);
-        board.addSingleMoveInADirection(-2, 1, location, availableMoves);
-        board.addSingleMoveInADirection(-2, -1, location, availableMoves);
+        const knightDirections = new Directions(this);
+        
+        knightDirections.directions.forEach(direction =>
+            board.addSingleMoveInADirection(direction, location, availableMoves)
+        )
 
         return availableMoves;
     }

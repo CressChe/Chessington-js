@@ -14,7 +14,6 @@ export default class Rook extends Piece {
         rookDirections.directions.forEach(direction =>
             board.addAllMovesInADirection(direction, location, availableMoves)
         )
-
         return availableMoves;
     }
 }
