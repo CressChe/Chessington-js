@@ -33,18 +33,16 @@ export default class Board {
         const squareContent = this.getPiece(square);
         if (!squareContent) {
             return true;
-        } else {
-            if ((squareContent.player !== this.currentPlayer) && !(squareContent instanceof King)) {
-                return 'Opposing Piece';
-            } else {
-                return false;
-            }
         }
+        if (squareContent.player !== this.currentPlayer && !(squareContent instanceof King)) {
+            return 'Opposing Piece';
+        }
+        return false;
     }
 
-    addAllMovesInADirection(directionUpDown, directionRightLeft, location, possibleMoves) {
+    addAllMovesInADirection(direction, location, possibleMoves) {
         for (let i = 1; i < 8; i++) {
-            const move = Square.at(location.row + (i * directionUpDown), location.col + (i * directionRightLeft));
+            const move = Square.at(location.row + (i * direction.x), location.col + (i * direction.y));
             const available = this.checkSquareAvailable(move)
 
             if (available) {

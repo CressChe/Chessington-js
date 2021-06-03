@@ -2,6 +2,7 @@ import Player from '../player';
 import Square from '../square';
 import Piece from './piece';
 
+
 export default class Pawn extends Piece {
     constructor(player) {
         super(player);
@@ -9,24 +10,41 @@ export default class Pawn extends Piece {
 
     getAvailableMoves(board) {
         const location = board.findPiece(this)
-        const moves = [];
-        let moveOne, moveTwo, pawnStartingRow;
+        const availableMoves = [];
+        let pawnStartingRow;
         if (this.player === Player.WHITE) {
-            moveOne = Square.at(location.row + 1, location.col);
-            moveTwo = Square.at(location.row + 2, location.col);
             pawnStartingRow = 1;
+            this.addSingleMove(1, 0, location, availableMoves, board);
+            if (location.row === pawnStartingRow && availableMoves.length != 0) {
+                this.addSingleMove(2, 0, location, availableMoves, board);
+            }
+            this.addSingleMove(1, 1, location, availableMoves, board);
+            this.addSingleMove(1, -1, location, availableMoves, board);
+
         }
         if (this.player === Player.BLACK) {
-            moveOne = Square.at(location.row - 1, location.col);
-            moveTwo = Square.at(location.row - 2, location.col);
             pawnStartingRow = 6;
-        }
-        if (board.checkSquareAvailable(moveOne)) {
-            moves.push(moveOne);
-            if (location.row === pawnStartingRow && board.checkSquareAvailable(moveTwo)) {
-                moves.push(moveTwo);
+            this.addSingleMove(-1, 0, location, availableMoves, board);
+            if (location.row === pawnStartingRow && availableMoves.length != 0) {
+                this.addSingleMove(-2, 0, location, availableMoves, board);
             }
+            this.addSingleMove(-1, 1, location, availableMoves, board);
+            this.addSingleMove(-1, -1, location, availableMoves, board);
+
         }
-        return moves;
+
+        return availableMoves;
+    }
+
+    addSingleMove(directionUpDown, directionRightLeft, location, possibleMoves, board) {
+        const move = Square.at(location.row + directionUpDown, location.col + directionRightLeft);
+        const available = board.checkSquareAvailable(move);
+
+        if (directionRightLeft === 0 && available) {
+            possibleMoves.push(move);
+        }
+        if (directionRightLeft !== 0 && available === 'Opposing Piece') {
+            possibleMoves.push(move)
+        }
     }
 }
